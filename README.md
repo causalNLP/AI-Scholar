@@ -12,7 +12,7 @@ Other necessary elements:
 
 - Public variables [`public_vars.py`](public_vars.py): stores all meta-variables, or public variables that need to be
   shared across files.
-- Data preprocessing [`data_preprocessing.py`](data_preprocessing.py): turns the raw data we crawled into objects we
+- Data preprocessing [`data_preprocess.py`](data_preprocessing.py): turns the raw data we crawled into objects we
   want
 
 ## For collaborative work
