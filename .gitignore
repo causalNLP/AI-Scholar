@@ -133,3 +133,6 @@ dmypy.json
 */.DS_Store
 .idea
 Icon*
+
+# local paths to data
+data/
