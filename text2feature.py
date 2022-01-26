@@ -4,6 +4,10 @@ import pickle
 from nltk import word_tokenize
 import json
 from tqdm import tqdm
+import urllib.request, urllib.parse
+import time
+import pandas as pd
+import argparse
 
 class TextFeatures:
     def __init__(self):
@@ -64,7 +68,7 @@ class PaperInfo(TextFeatures):
         dist_list = []
         representation_list = self.get_representations(text_list, embedding)
         if distance == "cos":
-            similarities = cosine_similarity(representation_list) # Todo: check type and shape here
+            similarities = cosine_similarity(representation_list)
             n = len(representation_list)
             for i in range(n):
                 for j in range(i + 1, n):
@@ -151,10 +155,32 @@ def load_glove(glove_path):
 def tokenize(text):
     return word_tokenize(text)
 
+def get_nationality(first_name, last_name, sleep = 1):
+    """
+    :param first_name: first name of author
+    :param last_name: last name of author
+    :param sleep: program should be paused at least one second between requests
+    :return:
+    """
+    first_perc_enc = urllib.parse.quote(first_name.encode('utf8'))
+    last_perc_enc = urllib.parse.quote(last_name.encode('utf8'))
+    try:
+        with urllib.request.urlopen(
+                f"http://abel.lis.illinois.edu/cgi-bin/ethnea/search.py?Fname={first_perc_enc}&Lname={last_perc_enc}&format=json") as url:
+            decoded = url.read().decode()
+            decoded_json = str(decoded).replace("\'", "\"")
+            name_dictionary = json.loads(decoded_json)
+            pred = name_dictionary["Ethnea"]
+    except:
+        print("Could not predict for:", " ".join([first_name, last_name]))
+        pred = None
+    time.sleep(sleep)
+    return pred
 
-def test_code():
+
+def test_code_novelty():
     '''
-    Just a temporary method for testing the code
+    Just a temporary method for testing the code -- copy paste to main
     :return: void
     '''
     with open('data/metadata_0.jsonl','r') as json_files:
@@ -182,4 +208,39 @@ def test_code():
 
 
 if __name__ == '__main__':
-    test_code()
+    #test_code_novelty()
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--path", type=str, default="data/scholar4domain_20k_11400.npy")
+    args = parser.parse_args()
+    names_file = np.load(args.path, allow_pickle = True)
+    names_list = []
+    urls = []
+    for paper in names_file:
+        if paper['co_authors'] != None:
+            names_list += [author[1] for author in paper['co_authors']]
+            urls += [author[0] for author in paper['co_authors']]
+
+    name_nationality = {}
+    first_names = []
+    last_names = []
+    predicted_nationalities = []
+    for name in tqdm(names_list):
+        name_splitted = name.split(" ")
+        first = "+".join(name_splitted[:len(name_splitted)-1])
+        last = name_splitted[-1]
+        if name in name_nationality.keys():
+            predicted_nationalities.append(name_nationality[name])
+        else:
+            pred = get_nationality(first, last, sleep = 1)
+            name_nationality[name] = pred
+            predicted_nationalities.append(pred)
+        first_names.append(" ".join(first.split("+")))
+        last_names.append(last)
+
+    df = pd.DataFrame({"gs_url": urls, "full_name": names_list, "first_name": first_names, "last_name": last_names,
+                       "nationality": predicted_nationalities})
+    df.to_csv("nationality_preds.csv", index=False)
+    #with open("data/nationality_preds.pickle", "wb") as output:
+    #    pickle.dump(name_nationality, output)
+
