@@ -135,6 +135,6 @@ dmypy.json
 Icon*
 
 # local paths to data
-data/
+# data/
 metadata/
-*.csv
+# *.csv
