@@ -1,24 +1,14 @@
-# AI Scholar Project
+# AI Scholar Dataset
 
-## Structure
+The dataset is constructed for deeper analysis of scholars as well as papers in the AI community.
 
-Three major elements:
+We provide public access to the two collections below:
+- Download the 78K Google Scholars data through the Google Drive shared link: [gs_scholars.npy](https://drive.google.com/file/d/1sfNLH549c0IMp-hojnpmskBftsW5jB7a/view?usp=sharing).
+- Download the 2.6M papers data through the Google Drive shared link: [ai_paper_features_100k](https://drive.google.com/file/d/16cmOlJ-8--7vqIXY-hP0JXtRwqaPoOfh/view?usp=sharing).
+## Collection of 78K Google Scholars
 
-1. Text2Feature: [`text2feature.py`](text2feature.py)
-1. Network2Feature: [`network2feature.py`](network2feature.py)
-1. Table2CausalGraph: [`table2causal_graph.py`](table2causal_graph.py)
+The data contains 78,536 AI scholars with all features directed obtained from Google Scholar profile pages. We crawled the list of AI Scholars through four domain tags shown on the Google Scholar profile page: AI, MLP, ML, CV. To control the scale of the dataset, we includes scholars with total citations over 100 by Jan 1, 2022.
 
-Other necessary elements:
+## Collection of 2.8M Papers
 
-- Public variables [`public_vars.py`](public_vars.py): stores all meta-variables, or public variables that need to be
-  shared across files.
-- Data preprocessing [`data_preprocess.py`](data_preprocess.py): turns the raw data we crawled into objects we
-  want
-
-## For collaborative work
-
-- If you want to track what Zhijing has lately updated, feel free to check the newest local version of the codes on her
-  end: [[here](https://drive.google.com/drive/folders/1mS5XFLy2QTNpA5iO6ewrL9zEITraPYOl?usp=drive_fs)]
-- If you want to track what Yiwen has lately updated, feel free to check her codes at ______
-- If you want to track what Andreas has lately updated, feel free to check his codes at ______
-
+The data contains 2,890,908 AI papers. We collected all paper titles by iterating through the Google Scholar profile of each AI researcher by Jan 1, 2022.
