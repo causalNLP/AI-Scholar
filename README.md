@@ -4,7 +4,8 @@ The dataset is constructed for deeper analysis of scholars as well as papers in 
 
 We provide public access to the two collections below:
 - Download the 78K Google Scholars data through the Google Drive shared link: [gs_scholars.npy](https://drive.google.com/file/d/1sfNLH549c0IMp-hojnpmskBftsW5jB7a/view?usp=sharing).
-- Download the 2.6M papers data through the Google Drive shared link: [ai_paper_features_100k](https://drive.google.com/file/d/16cmOlJ-8--7vqIXY-hP0JXtRwqaPoOfh/view?usp=sharing).
+- Download 100K random samples from the 2.6M papers through the Google Drive shared link: [ai_paper_features_100k](https://drive.google.com/file/d/16cmOlJ-8--7vqIXY-hP0JXtRwqaPoOfh/view?usp=sharing). If you need the full data, please initiate a github ticket.
+
 ## Collection of 78K Google Scholars
 
 The data contains 78,536 AI scholars with all features directed obtained from Google Scholar profile pages. We crawled the list of AI Scholars through four domain tags shown on the Google Scholar profile page: AI, MLP, ML, CV. To control the scale of the dataset, we includes scholars with total citations over 100 by Jan 1, 2022.
